@@ -1,4 +1,4 @@
-package bowling
+package main
 
 import (
     "testing"
@@ -19,6 +19,7 @@ func TestScore(t *testing.T) {
         {"X--X--X--X--X--", 50},
         {"--X--X--X--X--X--", 50},
         {"-/-/-/-/-/-/-/-/-/-/-", 100},
+        {"9/9/9/9/9/9/9/9/9/9/-", 181},
     }
     for _, test := range tests {
         l := NewLine(test.line)
