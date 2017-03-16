@@ -15,7 +15,7 @@ const (
 var linevar string
 
 func main() {
-    flag.StringVar(&linevar, "l", "--------------------", "A valid line score: '-' for a miss, '/' for a spare, 'X' for a strike, and 1-9 for their respective values")
+    flag.StringVar(&linevar, "l", "--------------------", "A valid bowling line: '-' for a miss, '/' for a spare, 'X' for a strike, and 1-9 for their respective values")
     flag.Parse()
     line := NewLine(linevar)
     fmt.Printf("Score: %d\n", line.Score())
