@@ -25,20 +25,17 @@ func main() {
 // as a string alias with some added functionality.
 type Roll string
 
-// IsStrike returns true if the Roll is equal to the Strike constant, false
-// otherwise.
+// IsStrike returns true if the Roll is a strike, false otherwise.
 func (r Roll) IsStrike() bool {
     return r == Strike
 }
 
-// IsSpare returns true if the Roll is equal to the Spare constant, false
-// otherwise.
+// IsSpare returns true if the Roll is a spare, false otherwise.
 func (r Roll) IsSpare() bool {
     return r == Spare
 }
 
-// IsMiss returns true if the Roll is equal to the Miss constant, false
-// otherwise.
+// IsMiss returns true if the Roll is a miss, false otherwise.
 func (r Roll) IsMiss() bool {
     return r == Miss
 }
@@ -74,23 +71,22 @@ func NewLine(line string) Line {
 // Score calculates the total score for the Line.
 func (l Line) Score() int {
     score := 0
-    // used to determine how many frames have passed - strikes count as 2 rolls
+    // Used to determine how many frames have passed - strikes count as 2 rolls.
+    // This makes every game an even 20 rolls, making frames deterministic.
     rollcount := 0
     for i, roll := range l.Rolls {
-        if roll.IsStrike() {
-            score += (roll.Value() + l.Rolls[i+1].Value() + l.Rolls[i+2].Value())
+        score += roll.Value()
+        rollcount++
+        if roll.IsStrike() { // Strike bonus points
+            score += (l.Rolls[i+1].Value() + l.Rolls[i+2].Value())
             // Spare values include the first roll in the frame, so subtract it
             if l.Rolls[i+2].IsSpare() {
                 score -= l.Rolls[i+1].Value()
             }
-            rollcount += 2
-        } else if roll.IsSpare() {
+            rollcount++ // extra roll for a strike
+        } else if roll.IsSpare() { // Spare bonus points
             // Spare values include the first roll in the frame, so subtract it
-            score += (roll.Value() - l.Rolls[i-1].Value() + l.Rolls[i+1].Value())
-            rollcount++
-        } else {
-            score += roll.Value()
-            rollcount++
+            score += (-l.Rolls[i-1].Value() + l.Rolls[i+1].Value())
         }
         // Stop calculating at the end of the 10th frame (don't double count
         // bonus rolls)
