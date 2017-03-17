@@ -1,3 +1,11 @@
+# Usage
+Run the binary in the bin directory that corresponds to your target system. For help, run ```bowling-os-arch -h```.  
+Example use case:  
+```
+> ./bowling-linux-amd64 -l XXXXXXXXXXXX  
+> Score: 300
+```
+
 # Design and Development Challenge – Bowling Score
 
 ## Requirement
